@@ -1,0 +1,150 @@
+taskKey="com.codegym.task.task33.task3310.big16"\n\nShortener (16)
+
+
+Stuff you can do on your own (we won't test you on any of these items):
+- Add a strategy for working with a database. Google JDBC.
+- Make a web service that returns an identifier for any URL or string,
+and returns the string for an identifier.
+- Write a version of HashMap that uses two threads, where one thread is
+responsible for working with elements, and the second is responsible for monitoring the number of elements. When
+the number of elements exceeds a threshold, the second thread should double
+the size of table. Additionally, the first thread should not know anything about the threshold.
+
+Here's what you have achieved:
+- You repeated the Strategy pattern.
+- You gained experience using the Guava library.
+- You gained experience using Apache Commons Collections.
+- You tried using JUnit to write tests.
+- You took one more step toward working as a Java programmer.
+
+Congratulations! I'm proud of you!
+You're a great student!
+
+
+Requirements:
+1.	Your Shortener class is done!
+
+
+Shortener (15)
+
+
+We're going to write another test that verifies that using HashBiMapStorageStrategy to get the identifier for a string
+can be faster than using
+HashMapStorageStrategy.
+15.1.	Create a SpeedTest class in the tests package.
+15.2.	Add a long getTimeToGetIds(Shortener shortener, Set <String>
+strings, Set<Long> ids) method to the class. It should return the time in milliseconds
+required to get the identifier for every string in strings. The identifiers
+must be added to the ids set.
+15.3.	Add a long getTimeToGetStrings(Shortener shortener,
+Set<Long> ids, Set<String> strings) method to the class. It should return the time in milliseconds
+required to get the string for every identifier in ids. The strings
+must be added to the strings set.
+15.4.	Add a testHashMapStorage() test to the SpeedTest class. It must:
+15.4.1.	Create two Shortener objects, one based on
+HashMapStorageStrategy, the second based on HashBiMapStorageStrategy. Let's call
+them shortener1 and shortener2.
+15.4.2.	Generate 10,000 strings using Helper and add them to a set of
+strings. Let's call it origStrings.
+15.4.3.	Get the time required to get the identifiers for origStrings (call
+the getTimeToGetIds method on shortener1 and then on shortener2).
+15.4.4.	Use JUnit to check that the time obtained in the previous item
+for shortener1 is greater than for shortener2.
+15.4.5.	Get the time required to get the strings (call the getTimeToGetStrings method
+on shortener1 and shortener2).
+15.4.6.	Use JUnit to check that the time obtained in the previous item
+for shortener1 is approximately equal to the time for shortener2. Use the
+assertEquals(float expected, float actual, float delta) method. For the delta, you can
+use 30. That will be sufficient for our experiments.
+
+
+
+Shortener (14)
+
+
+We've tested our strategies many times using the Solution class's
+testStrategy() method. It's time to use JUnit to write real unit tests.
+14.1.	Read about unit tests.
+14.2.	Download and connect the JUnit 4.12 library. Figure out how to use it.
+The JUnit library depends on the hamcrest-core library. Connect it as well. Use version 1.3.
+14.3.	Add a FunctionalTest class to the tests package. In this class, we'll check
+the functionality of our strategies.
+14.4.	Add a testStorage(Shortener shortener) method to the FunctionalTest class. It
+must:
+14.4.1.	Create three strings. String 1 and 3 should be the same.
+14.4.2.	Get and save identifiers for all three strings using
+shortener.
+14.4.3.	Check that the identifier for String 2 is not equal to the identifier for Strings 1
+and 3. Hint: Assert.assertNotEquals method.
+14.4.4.	Check that the identifiers for Strings 1 and 3 are equal. Hint: Assert.assertEquals
+method.
+14.4.5.	Use shortner to get three strings for three ids.
+14.4.6.	Check that the strings obtained in the preceding item are the same as the
+original. Hint: Assert.assertEquals method.
+14.5.	Add tests to the FunctionalTest class:
+14.5.1.	testHashMapStorageStrategy()
+14.5.2.	testOurHashMapStorageStrategy()
+14.5.3.	testFileStorageStrategy()
+14.5.4.	testHashBiMapStorageStrategy()
+14.5.5.	testDualHashBidiMapStorageStrategy()
+14.5.6.	testOurHashBiMapStorageStrategy()
+Each test must have a @Test annotation. Create the appropriate strategy.
+Create a Shortener object based on the strategy and call the corresponding testStorage
+method.
+Run the program and verify that all tests pass.
+
+
+
+
+Shortener (13)
+
+
+Consider another implementation of BiMap — this time from Apache Commons Collections.
+13.1.	Download and connect Apache Commons Collections 4.0.
+13.2.	Implement a DualHashBidiMapStorageStrategy. It must:
+13.2.1.	support the StorageStrategy interface.
+13.2.2.	have only one DualHashBidiMap data field.
+13.3.	Test the new strategy in the main() method. Run the program and compare the performance
+of the six strategies.
+
+
+
+Shortener (12)
+
+
+It's not all that uncommon to need to create a Map that works in two directions (from key to
+value, and from value to key). Implementations of such collections
+already exist in various third-party libraries. One such is guava from
+Google.
+12.1.	Download and connect the guava library, version 19.0.
+12.2.	Implement the HashBiMapStorageStrategy. It must:
+12.2.1.	support the StorageStrategy interface.
+12.2.2.	have only one HashBiMap data field.
+12.3.	Test the new strategy in the main() method. Run the program and compare the performance
+of the five strategies.
+
+
+
+Shortener (11)
+
+
+As you've noticed, getting an identifier using a string takes a lot more
+time than getting a string using an identifier. This is expected and is a consequence of
+HashMap's implementation. Let's write a fourth strategy:
+OurHashBiMapStorageStrategy, which will eliminate this shortcoming.
+11.1.	Create an OurHashBiMapStorageStrategy class that implements the
+StorageStrategy interface.
+11.2.	Add two fields: HashMap<Long, String> k2v and HashMap<String, Long> v2k
+The first will maintain a mapping from keys to values, and the second will do the opposite: from values
+to keys.
+11.3.	Implement the StorageStrategy interface's methods, optimizing for
+speed. Hint: when a new key-value pair must be added,
+add it to two fields at once.
+Test the new strategy in the main() method. Run the program and compare the performance of
+all 4 strategies. Be sure that we've made it significantly faster to get
+an identifier. Of course, you understand that this solution has both advantages and disadvantages.
+Think about when it makes sense to use OurHashBiMapStorageStrategy and when
+HashMapStorageStrategy would be preferred.
+
+
+
